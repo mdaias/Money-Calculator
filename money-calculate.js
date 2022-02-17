@@ -29,6 +29,10 @@ function totalExpense(){
     //  Get income and balance value
     const incomeField = document.getElementById('income-field');
     const income = parseInt(incomeField.value)
+    if(isNaN(income) || income < 0){
+        incomeField.value = '';
+        return alert('Error! please input a valid amount of money');
+    }
     const balanceField = document.getElementById('Balance');
     const previousBalance = balanceField.innerText;
     //Update Expenses
@@ -36,17 +40,40 @@ function totalExpense(){
         return alert('Insufficiant balance, please input vaild amount of money')
     }
     totalExpenseField.innerText = totalCoast;
-    
+
      //  Update Balance
     let updateBalance = income - totalCoast;
     balanceField.innerText = updateBalance;
-    
-    //  foodField.value = '';
-    //  rentField.value = '';
-    //  clothesField.value = '';
+}
+// Saving function
+
+function totalSave(){
+    //Get Percentage value
+    const savingfield = document.getElementById('saving-field');
+    savingPercentage = parseInt(savingfield.value);
+    if(isNaN(savingPercentage) ||savingPercentage < 0 || savingPercentage >100 ){
+        savingfield.value = '';
+        return alert('Error! please input a valid Percentage');
+    }
+    //Get Saving Amount and Remaining Balance
+    const savingAmount = document.getElementById('saving-amount');
+    const savingAmountValue = savingAmount.innerText;
+    const remainingBalance = document.getElementById('remaining-balance');
+    const remainingBalanceValue = remainingBalance.innerText;
+    //get balance
+    const updateBalance = parseInt(document.getElementById('Balance').innerText);
+
+    //Update Saving Amount
+    savingAmount.innerText = (updateBalance * savingPercentage) / 100;
+    savingBalance = parseInt(savingAmount.innerText);
+    //Update Remaining balance
+    remainingBalance.innerText = updateBalance - savingBalance;
 }
 
 document.getElementById('calculate-button').addEventListener('click',function(){
-   totalExpense()
-   
+   totalExpense() 
+})
+
+document.getElementById('saving-button').addEventListener('click',function(){
+    totalSave()
 })
